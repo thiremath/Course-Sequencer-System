@@ -1,8 +1,11 @@
 package courseSequencer.util;
+import courseSequencer.util.Results;
 
 public class ExceptionHandler {
 
-    public static Results errorLogProcessor;
+    public static Results errorLogProcessor = new Results();
+    public static String errorLogFilePath ;
+
     public static void handleException(Exception eIn, String eMsgIn){
 
         String eMsg;
@@ -13,13 +16,13 @@ public class ExceptionHandler {
             eMsg = eMsgIn;
         }
 
-        String eString = "EXCEPTION: " + eMsg;
-        if (errorLogProcessor != null) {
-            errorLogProcessor.writeToConsole(eString);
+        StringBuilder eString = new StringBuilder() ;
+        eString.append("EXCEPTION: " + eMsg);
+
+        if(errorLogFilePath != null){
+            errorLogProcessor.writetoFile(errorLogFilePath,eString);
         }
-        else {
-            System.out.println(eString);
-        }
+        errorLogProcessor.writeToConsole(eString);
 
         if (eIn != null){
             eIn.printStackTrace();

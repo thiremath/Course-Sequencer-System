@@ -1,5 +1,5 @@
 package courseSequencer.util;
 
 public interface StdoutDisplayInterface {
-    public void writeToConsole(String strIn);
+    public void writeToConsole(StringBuilder strIn) ;
 }

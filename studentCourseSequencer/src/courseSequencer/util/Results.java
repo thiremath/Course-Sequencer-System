@@ -3,50 +3,45 @@ package courseSequencer.util;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 
+import courseSequencer.util.ExceptionHandler;
 
 public class Results implements ResultsInterface {
-    ArrayList<String> results ;
-    public Results(ArrayList<String> resultIn){
-        results = resultIn ;
+
+    @Override
+    public void writeToConsole(StringBuilder strIn) {
+        System.out.println(strIn);
     }
 
     @Override
-    public void writeToConsole(String strIn) {
+    public void writetoFile(String OutputFileIn, StringBuilder sbIn) {
         try{
-        String errorLogPath = System.getProperty("user.dir")+"/"+"errorLog.txt" ;
-        File file = new File(errorLogPath) ;
-        FileWriter fileWriter = new FileWriter(file) ;
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter) ;
-        bufferedWriter.write(strIn);
-        bufferedWriter.write("\n") ;
-        bufferedWriter.close();
-        }
-        catch(Exception eIn){
-            ExceptionHandler.handleException(eIn, "");
-        }
-    }
-
-    @Override
-    public void writetoFile(String OutputFileIn) {
-        try{
-        File file = new File(OutputFileIn) ;
-        FileWriter fileWriter = new FileWriter(file) ;
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter) ;
-        int i = 0 ;
-        for(String s : results){
+            File file = new File(OutputFileIn) ;
+            FileWriter fileWriter = new FileWriter(file,true) ;
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter) ;
+            String s = String.valueOf(sbIn) ;
             bufferedWriter.write(s);
-            i++ ;
-            if(results.size() != i){
-                bufferedWriter.write("\n");
-            }
-        }
-        bufferedWriter.close();
+            bufferedWriter.close();
         }
         catch(Exception eIn){
             ExceptionHandler.handleException(eIn, "");
         }
+    }
+
+    public static void deleteFile(String fileName) {
+        try {
+            File file = new File(fileName); 
+            FileWriter f = new FileWriter(file) ;
+            BufferedWriter bufferedWriter = new BufferedWriter(f) ;
+            bufferedWriter.write("") ;
+            System.out.println("Cleared the file: "+file.getName());
+            bufferedWriter.close();
+        } catch (Exception eIn) {
+            ExceptionHandler.handleException(eIn, "");
+        }
+        //   if (file.delete()) { 
+        //     System.out.println("Deleted the file: " + file.getName());
+        //   } 
     }
 
 }
