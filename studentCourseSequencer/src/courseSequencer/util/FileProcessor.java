@@ -75,5 +75,4 @@ public class FileProcessor implements FileProcessorInterface{
         pair.prefs = x.toCharArray() ;
         return pair ;
     }
-    
 }

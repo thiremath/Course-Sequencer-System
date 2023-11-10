@@ -2,11 +2,16 @@ package courseSequencer.projectmanager;
 
 // import backupSystem_StudentRecords.bstBuilder.BSTBuilder;
 import courseSequencer.util.Results;
+
+import java.util.zip.CRC32;
+
 import courseSequencer.state.CourseSequencerStateI;
+import courseSequencer.state.courseInfo;
 import courseSequencer.state.courseSequencerHelper;
 import courseSequencer.state.courseSequencer;
 import courseSequencer.util.ExceptionHandler;
 import courseSequencer.util.FileProcessor;
+import courseSequencer.util.Pair;
 
 public class ProjectManager implements ProjectManagerInterface{
     public static FileProcessor inputFileProcessor ;
@@ -60,7 +65,38 @@ public class ProjectManager implements ProjectManagerInterface{
         // res.writetoFile(OutputFile,results);
         // System.out.println(results);
 
-        courseSequencer c = new courseSequencer() ;
-        c.registerCourse();
+        courseInfo CourseInfo = new courseInfo() ;
+        courseSequencer c = new courseSequencer(CourseInfo) ;
+        StringBuilder s = new StringBuilder() ;
+        FileProcessor fp = ProjectManager.inputFileProcessor ;
+        Pair pair = fp.readLine() ;
+        int b_Number = pair.b_Number ;
+        char[] prefs = pair.prefs;
+        if(prefs != null){
+            for(char course: prefs){
+                c.registerCourse(course);
+                if(c.getCurrState() == c.getState(5)){
+                    break ;
+                }
+            }
+        }
+        s.append(String.valueOf(b_Number)+" ") ;
+        for(char tempChar: CourseInfo.coursesAlloted){
+            s.append(String.valueOf(tempChar)) ;
+            s.append(" ") ;
+        }
+        s.append("-- ") ;
+        if(c.isGradEligible(CourseInfo)){
+            s.append(CourseInfo.semwiseCourses.size()) ;
+            s.append(" "+c.NumStateChanges) ;
+        }
+        else{
+            s.append("0") ;
+            s.append(" "+c.NumStateChanges) ;
+            s.append("\n The Student Does not Graduate!!") ;
+        }
+        System.out.println(CourseInfo.semwiseCourses+" semwise courses");
+        System.out.println(" "+s+"\n");
+        System.out.println(CourseInfo.courses_grps+"courses_grps");
     }
 }

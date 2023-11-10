@@ -4,9 +4,15 @@ import courseSequencer.util.StateHelper;
 
 public class State3 implements CourseSequencerStateI {
     private courseSequencer courseSeq ;
+    private courseSequencerHelper CourseSequencerHelper ;
 
-    public State3(courseSequencer courseSequencerIn){
+    public State3(courseSequencer courseSequencerIn, courseSequencerHelper CourseSequencerHelperIn){
         courseSeq = courseSequencerIn ;
+        CourseSequencerHelper = CourseSequencerHelperIn ;
+    }
+
+    public void processPreference(char courseIn){
+        CourseSequencerHelper.processPreference(courseIn);
     }
 
     @Override

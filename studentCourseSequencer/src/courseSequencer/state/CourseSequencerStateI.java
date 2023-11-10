@@ -6,4 +6,5 @@ public interface CourseSequencerStateI {
     public boolean iscourseAlreadyOpted(courseInfo helperIn) ;
     public boolean isCourseAllowed(courseInfo helperIn) ;
     public void changeState(CourseSequencerStateI courseSequencerStateIn) ;
+    public void processPreference(char courseIn) ;
 }
