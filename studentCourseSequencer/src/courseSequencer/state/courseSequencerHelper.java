@@ -1,31 +1,18 @@
 package courseSequencer.state;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
-
-import courseSequencer.projectmanager.ProjectManager;
-import courseSequencer.util.FileProcessor;
-import courseSequencer.util.Pair;
 
 public class courseSequencerHelper {
     Queue<Character> queue ;
     courseSequencer sequencer ;
     courseInfo CourseInfo ;
-    HashMap<Integer,CourseSequencerStateI> map ;
 
     public courseSequencerHelper(courseSequencer sequencerIn, courseInfo CourseInfoIn){
         sequencer = sequencerIn ;
         CourseInfo = CourseInfoIn ;
         queue = new LinkedList<>() ;
-        map = new HashMap<>() ;
-        map.put(0,sequencerIn.State1) ;
-        map.put(1,sequencerIn.State2) ;
-        map.put(2,sequencerIn.State3) ;
-        map.put(3,sequencerIn.State4) ;
-        map.put(4,sequencerIn.State5) ;
-        map.put(5,sequencerIn.GraduatedState) ;
     }
 
     public void processPreference(char c){
@@ -58,14 +45,14 @@ public class courseSequencerHelper {
             }
 
             if(sequencer.isGradEligible(CourseInfo)){
-                sequencer.state = sequencer.getState(5) ;
+                sequencer.state = sequencer.getGraduatedState() ;
                 return ;
             }
             allotCourse() ;
         }
         else{
             // Eligible for graduation !!
-            sequencer.state = sequencer.getState(5) ;
+            sequencer.state = sequencer.getGraduatedState() ;
             return ;
         }
 
@@ -110,8 +97,8 @@ public class courseSequencerHelper {
         }
     }
 
-    public int numStateChanges(){
-        return sequencer.NumStateChanges ;
-    }
+    // public int numStateChanges(){
+    //     return sequencer.NumStateChanges ;
+    // }
 
 }

@@ -1,5 +1,7 @@
 package courseSequencer.state;
 
+import java.util.HashMap;
+
 public class courseSequencer {
     CourseSequencerStateI State1 ;
     CourseSequencerStateI State2 ;
@@ -10,6 +12,8 @@ public class courseSequencer {
 
     courseSequencerHelper CourseSequencerHelper ;
     CourseSequencerStateI state ;
+    HashMap<Integer,CourseSequencerStateI> map ;
+    public boolean isGraduated ;
     public int NumStateChanges ;
 
     public courseSequencer(courseInfo CourseInfo){
@@ -22,6 +26,16 @@ public class courseSequencer {
         State4 = new State4(this,CourseSequencerHelper) ;
         State5 = new State5(this,CourseSequencerHelper) ;
         GraduatedState = new GraduatedState(this,CourseSequencerHelper) ;
+
+        map = new HashMap<>() ;
+        map.put(0,State1) ;
+        map.put(1,State2) ;
+        map.put(2,State3) ;
+        map.put(3,State4) ;
+        map.put(4,State5) ;
+        map.put(5,GraduatedState) ;
+
+        isGraduated = false ;
 
         NumStateChanges = 0 ;
         state = State1 ;
@@ -57,7 +71,31 @@ public class courseSequencer {
     }
 
     public CourseSequencerStateI getState(int i){
-        return CourseSequencerHelper.map.get(i) ;
+        return map.get(i) ;
+    }
+
+    public CourseSequencerStateI getState1(){
+        return State1 ;
+    }
+
+    public CourseSequencerStateI getState2(){
+        return State2 ;
+    }
+
+    public CourseSequencerStateI getState3(){
+        return State3 ;
+    }
+
+    public CourseSequencerStateI getState4(){
+        return State4 ;
+    }
+
+    public CourseSequencerStateI getState5(){
+        return State5 ;
+    }
+
+    public CourseSequencerStateI getGraduatedState(){
+        return GraduatedState ;
     }
 
 }

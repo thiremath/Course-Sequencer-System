@@ -1,10 +1,6 @@
 package courseSequencer.projectmanager;
 
-// import backupSystem_StudentRecords.bstBuilder.BSTBuilder;
 import courseSequencer.util.Results;
-
-import java.util.zip.CRC32;
-
 import courseSequencer.state.CourseSequencerStateI;
 import courseSequencer.state.courseInfo;
 import courseSequencer.state.courseSequencerHelper;
@@ -38,8 +34,8 @@ public class ProjectManager implements ProjectManagerInterface{
 
         inputFileProcessor = new FileProcessor(InputFile, OutputFile, errorLogFile, Debug_Level, Update_Value) ;
 
-        // Results.deleteFile(OutputFile) ;
-        // Results.deleteFile(errorLogFile) ;
+        Results.deleteFile(OutputFile) ;
+        Results.deleteFile(errorLogFile) ;
     }
 
     public void writeToResults(String sIn){
@@ -74,10 +70,8 @@ public class ProjectManager implements ProjectManagerInterface{
         char[] prefs = pair.prefs;
         if(prefs != null){
             for(char course: prefs){
-                c.registerCourse(course);
-                if(c.getCurrState() == c.getState(5)){
-                    break ;
-                }
+                if(!c.isGraduated) c.registerCourse(course);
+                else break ;
             }
         }
         s.append(String.valueOf(b_Number)+" ") ;
@@ -86,7 +80,7 @@ public class ProjectManager implements ProjectManagerInterface{
             s.append(" ") ;
         }
         s.append("-- ") ;
-        if(c.isGradEligible(CourseInfo)){
+        if(c.isGraduated){
             s.append(CourseInfo.semwiseCourses.size()) ;
             s.append(" "+c.NumStateChanges) ;
         }
@@ -95,6 +89,8 @@ public class ProjectManager implements ProjectManagerInterface{
             s.append(" "+c.NumStateChanges) ;
             s.append("\n The Student Does not Graduate!!") ;
         }
+        Results r = new Results() ;
+        r.writetoFile(OutputFile, s);
         System.out.println(CourseInfo.semwiseCourses+" semwise courses");
         System.out.println(" "+s+"\n");
         System.out.println(CourseInfo.courses_grps+"courses_grps");

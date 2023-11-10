@@ -47,5 +47,5 @@ public class State4 implements CourseSequencerStateI {
     public boolean isCourseAllowed(courseInfo CourseInfoIn) {
         return StateHelper.isCourseAllowed(CourseInfoIn) ;
     }
-    
+
 }
