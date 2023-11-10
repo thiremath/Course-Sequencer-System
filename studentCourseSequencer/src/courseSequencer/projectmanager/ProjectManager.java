@@ -3,6 +3,7 @@ package courseSequencer.projectmanager;
 // import backupSystem_StudentRecords.bstBuilder.BSTBuilder;
 import courseSequencer.util.Results;
 import courseSequencer.state.CourseSequencerStateI;
+import courseSequencer.state.courseSequencerHelper;
 import courseSequencer.state.courseSequencer;
 import courseSequencer.util.ExceptionHandler;
 import courseSequencer.util.FileProcessor;
@@ -60,6 +61,6 @@ public class ProjectManager implements ProjectManagerInterface{
         // System.out.println(results);
 
         courseSequencer c = new courseSequencer() ;
-        c.processPreference();
+        c.registerCourse();
     }
 }

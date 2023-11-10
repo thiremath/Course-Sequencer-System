@@ -1,45 +1,45 @@
 package courseSequencer.state;
 
-import java.util.ArrayList;
-
 import courseSequencer.util.StateHelper;
 
 public class State2 implements CourseSequencerStateI {
-    courseSequencer courseSeq ;
+    private courseSequencer courseSeq ;
 
     public State2(courseSequencer courseSequencerIn){
         courseSeq = courseSequencerIn ;
     }
-    
 
     @Override
-    public void updateState(ArrayList<ArrayList<Character>> courses_grpsIn) {
-        int temp = courses_grpsIn.get(1).size() ;
-        for(int i=0;i<courses_grpsIn.size();i++){
-            if(courses_grpsIn.get(i).size() > temp) {
-                changeState(courseSeq.getState(i));
+    public void updateState(courseInfo CourseInfoIn) {
+        CourseSequencerStateI currState = courseSeq.getCurrState() ;
+        CourseSequencerStateI tempState = currState ;
+        int Size = CourseInfoIn.courses_grps.get(1).size() ;
+        for(int i=0;i<CourseInfoIn.courses_grps.size();i++){
+            if(CourseInfoIn.courses_grps.get(i).size() > Size) {
+                tempState = courseSeq.getState(i);
             }
         }
-    }
-
-    @Override
-    public boolean isGradEligible(ArrayList<ArrayList<Character>> courses_grpsIn) {
-        return StateHelper.isGradEligible(courses_grpsIn) ;
-    }
-
-    @Override
-    public boolean iscourseAlreadyOpted(ArrayList<Character> coursesAllotedIn, char courseIn) {
-        return StateHelper.iscourseAlreadyOpted(coursesAllotedIn,courseIn) ;
-    }
-
-    @Override
-    public boolean isCourseAllowed(ArrayList<Character> coursesAllotedIn, ArrayList<Character> semCoursesIn, char courseIn) {
-        return StateHelper.isCourseAllowed(coursesAllotedIn,semCoursesIn,courseIn) ;
+        if(tempState != currState) changeState(tempState);
     }
 
     @Override
     public void changeState(CourseSequencerStateI courseSequencerStateIn) {
         courseSeq.setState(courseSequencerStateIn);
+    }
+
+    @Override
+    public boolean isGradEligible(courseInfo CourseInfoIn) {
+        return StateHelper.isGradEligible(CourseInfoIn) ;
+    }
+
+    @Override
+    public boolean iscourseAlreadyOpted(courseInfo CourseInfoIn) {
+        return StateHelper.iscourseAlreadyOpted(CourseInfoIn) ;
+    }
+
+    @Override
+    public boolean isCourseAllowed(courseInfo CourseInfoIn) {
+        return StateHelper.isCourseAllowed(CourseInfoIn) ;
     }
     
 }

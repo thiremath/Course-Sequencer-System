@@ -1,7 +1,5 @@
 package courseSequencer.state;
 
-import java.util.ArrayList;
-
 import courseSequencer.util.StateHelper;
 
 public class State1 implements CourseSequencerStateI {
@@ -12,13 +10,16 @@ public class State1 implements CourseSequencerStateI {
     }
 
     @Override
-    public void updateState(ArrayList<ArrayList<Character>> courses_grpsIn) {
-        int temp = courses_grpsIn.get(0).size() ;
-        for(int i=0;i<courses_grpsIn.size();i++){
-            if(courses_grpsIn.get(i).size() > temp) {
-                changeState(courseSeq.getState(i));
+    public void updateState(courseInfo CourseInfoIn) {
+        CourseSequencerStateI currState = courseSeq.getCurrState() ;
+        CourseSequencerStateI tempState = currState ;
+        int Size = CourseInfoIn.courses_grps.get(0).size() ;
+        for(int i=0;i<CourseInfoIn.courses_grps.size();i++){
+            if(CourseInfoIn.courses_grps.get(i).size() > Size) {
+                tempState = courseSeq.getState(i);
             }
         }
+        if(tempState != currState) changeState(tempState);
     }
 
     @Override
@@ -27,18 +28,18 @@ public class State1 implements CourseSequencerStateI {
     }
 
     @Override
-    public boolean isGradEligible(ArrayList<ArrayList<Character>> courses_grpsIn) {
-        return StateHelper.isGradEligible(courses_grpsIn) ;
+    public boolean isGradEligible(courseInfo CourseInfoIn) {
+        return StateHelper.isGradEligible(CourseInfoIn) ;
     }
 
     @Override
-    public boolean iscourseAlreadyOpted(ArrayList<Character> coursesAllotedIn, char courseIn) {
-        return StateHelper.iscourseAlreadyOpted(coursesAllotedIn,courseIn) ;
+    public boolean iscourseAlreadyOpted(courseInfo CourseInfoIn) {
+        return StateHelper.iscourseAlreadyOpted(CourseInfoIn) ;
     }
 
     @Override
-    public boolean isCourseAllowed(ArrayList<Character> coursesAllotedIn, ArrayList<Character> semCoursesIn, char courseIn) {
-        return StateHelper.isCourseAllowed(coursesAllotedIn,semCoursesIn,courseIn) ;
+    public boolean isCourseAllowed(courseInfo CourseInfoIn) {
+        return StateHelper.isCourseAllowed(CourseInfoIn) ;
     }
     
 }

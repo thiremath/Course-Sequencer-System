@@ -1,11 +1,9 @@
 package courseSequencer.state;
 
-import java.util.ArrayList;
-
 public interface CourseSequencerStateI {
-    public boolean isGradEligible(ArrayList<ArrayList<Character>> courses_grpsIn) ;
-    public void updateState(ArrayList<ArrayList<Character>> courses_grpsIn) ;
-    public boolean iscourseAlreadyOpted(ArrayList<Character> coursesAllotedIn, char courseIn) ;
-    public boolean isCourseAllowed(ArrayList<Character> coursesAllotedIn, ArrayList<Character> semCoursesIn, char courseIn) ;
+    public boolean isGradEligible(courseInfo helperIn) ;
+    public void updateState(courseInfo helperIn) ;
+    public boolean iscourseAlreadyOpted(courseInfo helperIn) ;
+    public boolean isCourseAllowed(courseInfo helperIn) ;
     public void changeState(CourseSequencerStateI courseSequencerStateIn) ;
 }

@@ -2,9 +2,11 @@ package courseSequencer.util;
 
 import java.util.ArrayList;
 
+import courseSequencer.state.courseInfo;
+
 public class StateHelper {
-    public static boolean isGradEligible(ArrayList<ArrayList<Character>> courses_grpsIn){
-        for(ArrayList<Character> a: courses_grpsIn){
+    public static boolean isGradEligible(courseInfo helperIn){
+        for(ArrayList<Character> a: helperIn.courses_grps){
             if(a.size() < 2){
                 return false ;
             }
@@ -12,22 +14,22 @@ public class StateHelper {
         return true ;
     }
 
-    public static boolean iscourseAlreadyOpted(ArrayList<Character> coursesAllotedIn, char courseIn){
-        if(coursesAllotedIn.contains(courseIn)) return true;
+    public static boolean iscourseAlreadyOpted(courseInfo helperIn){
+        if(helperIn.coursesAlloted.contains(helperIn.course)) return true;
         else return false ;
     } 
 
-    public static boolean isCourseAllowed(ArrayList<Character> coursesAllotedIn, ArrayList<Character> semCoursesIn, char courseIn){
-        if(courseIn-'A' >= 16 || (courseIn-'A') % 4 == 0){
+    public static boolean isCourseAllowed(courseInfo helperIn){
+        if(helperIn.course-'A' >= 16 || (helperIn.course-'A') % 4 == 0){
             return true ;
         }
         else{
-            int temp = 4 * ((courseIn-'A')/4) ;
-            for(int i=temp+'A'; i<courseIn;i++){
-                if(semCoursesIn.contains((char)i)){
+            int temp = 4 * ((helperIn.course-'A')/4) ;
+            for(int i=temp+'A'; i<helperIn.course;i++){
+                if(helperIn.currSemCourses.contains((char)i)){
                     return false ;
                 }
-                else if(!coursesAllotedIn.contains((char)i)){
+                else if(!helperIn.coursesAlloted.contains((char)i)){
                     return false ;
                 }
             }
