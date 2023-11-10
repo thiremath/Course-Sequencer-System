@@ -1,8 +1,11 @@
 package courseSequencer.state;
 
 public class GraduatedState implements CourseSequencerStateI {
+
+    // Graduate State
     private courseSequencer courseSeq ;
     private courseSequencerHelper CourseSequencerHelper ;
+    private boolean isGraduate = true ;
 
     public GraduatedState(courseSequencer courseSequencerIn, courseSequencerHelper CourseSequencerHelperIn){
         courseSeq = courseSequencerIn ;
