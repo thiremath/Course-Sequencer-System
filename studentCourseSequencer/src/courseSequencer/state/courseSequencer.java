@@ -1,6 +1,7 @@
 package courseSequencer.state;
 
-import java.util.HashMap;
+import courseSequencer.util.courseInfo;
+import courseSequencer.util.courseSequencerHelper;
 
 public class courseSequencer {
     CourseSequencerStateI State1 ;
@@ -11,9 +12,7 @@ public class courseSequencer {
     CourseSequencerStateI GraduatedState ;
 
     courseSequencerHelper CourseSequencerHelper ;
-    CourseSequencerStateI state ;
-    HashMap<Integer,CourseSequencerStateI> map ;
-    public boolean isGraduated ;
+    public CourseSequencerStateI state ;
     public int NumStateChanges ;
 
     public courseSequencer(courseInfo CourseInfo){
@@ -27,15 +26,7 @@ public class courseSequencer {
         State5 = new State5(this,CourseSequencerHelper) ;
         GraduatedState = new GraduatedState(this,CourseSequencerHelper) ;
 
-        map = new HashMap<>() ;
-        map.put(0,State1) ;
-        map.put(1,State2) ;
-        map.put(2,State3) ;
-        map.put(3,State4) ;
-        map.put(4,State5) ;
-        map.put(5,GraduatedState) ;
-
-        isGraduated = false ;
+        CourseSequencerHelper.createStateMap(State1,State2,State3,State4,State5,GraduatedState) ;
 
         NumStateChanges = 0 ;
         state = State1 ;
@@ -43,6 +34,10 @@ public class courseSequencer {
 
     public void registerCourse(char courseIn){
         state.processPreference(courseIn) ;
+    }
+
+    public boolean isGraduated(){
+        return state.isGraduated() ;
     }
 
     public boolean isGradEligible(courseInfo courseInfoIn){
@@ -71,31 +66,7 @@ public class courseSequencer {
     }
 
     public CourseSequencerStateI getState(int i){
-        return map.get(i) ;
-    }
-
-    public CourseSequencerStateI getState1(){
-        return State1 ;
-    }
-
-    public CourseSequencerStateI getState2(){
-        return State2 ;
-    }
-
-    public CourseSequencerStateI getState3(){
-        return State3 ;
-    }
-
-    public CourseSequencerStateI getState4(){
-        return State4 ;
-    }
-
-    public CourseSequencerStateI getState5(){
-        return State5 ;
-    }
-
-    public CourseSequencerStateI getGraduatedState(){
-        return GraduatedState ;
+        return CourseSequencerHelper.getState(i) ;
     }
 
 }

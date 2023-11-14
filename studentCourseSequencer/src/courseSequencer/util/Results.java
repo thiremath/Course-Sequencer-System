@@ -4,8 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-import courseSequencer.util.ExceptionHandler;
-
 public class Results implements ResultsInterface {
 
     @Override
@@ -28,7 +26,7 @@ public class Results implements ResultsInterface {
         }
     }
 
-    public static void deleteFile(String fileName) {
+    public static void clearFile(String fileName) {
         try {
             File file = new File(fileName); 
             FileWriter f = new FileWriter(file) ;
@@ -39,9 +37,6 @@ public class Results implements ResultsInterface {
         } catch (Exception eIn) {
             ExceptionHandler.handleException(eIn, "");
         }
-        //   if (file.delete()) { 
-        //     System.out.println("Deleted the file: " + file.getName());
-        //   } 
     }
 
 }

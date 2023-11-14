@@ -1,8 +1,11 @@
-package courseSequencer.state;
+package courseSequencer.util;
 
 import java.util.ArrayList;
 
 public class courseInfo {
+
+    public int b_Number ;
+
     public ArrayList<Character> Group1;
     public ArrayList<Character> Group2;
     public ArrayList<Character> Group3;
@@ -17,6 +20,9 @@ public class courseInfo {
     public char course ;
 
     public courseInfo(){
+
+        b_Number = 0 ;
+
         Group1 = new ArrayList<>() ;
         Group2 = new ArrayList<>() ;
         Group3 = new ArrayList<>() ;

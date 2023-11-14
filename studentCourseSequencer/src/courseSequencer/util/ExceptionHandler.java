@@ -1,5 +1,4 @@
 package courseSequencer.util;
-import courseSequencer.util.Results;
 
 public class ExceptionHandler {
 

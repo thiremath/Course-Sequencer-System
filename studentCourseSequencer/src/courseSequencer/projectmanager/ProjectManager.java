@@ -1,9 +1,7 @@
 package courseSequencer.projectmanager;
 
 import courseSequencer.util.Results;
-import courseSequencer.state.CourseSequencerStateI;
-import courseSequencer.state.courseInfo;
-import courseSequencer.state.courseSequencerHelper;
+import courseSequencer.util.courseInfo;
 import courseSequencer.state.courseSequencer;
 import courseSequencer.util.ExceptionHandler;
 import courseSequencer.util.FileProcessor;
@@ -14,85 +12,76 @@ public class ProjectManager implements ProjectManagerInterface{
     String InputFile ;
     String OutputFile ;
     String errorLogFile ;
-    int Debug_Level ;
-    int Update_Value ;
-    public static StringBuilder results = new StringBuilder() ;
 
-    public ProjectManager(String InputFileIn, String OutputFileIn, String errorLogFileIn, String Debug_LevelIn, String Update_ValueIn){
+    public ProjectManager(String InputFileIn, String OutputFileIn, String errorLogFileIn){
         InputFile = System.getProperty("user.dir")+"/"+InputFileIn ;
         OutputFile = System.getProperty("user.dir")+"/"+OutputFileIn ;
         errorLogFile = System.getProperty("user.dir")+"/"+errorLogFileIn ;
         
         ExceptionHandler.errorLogFilePath = errorLogFile ;
-        try{
-            // Debug_Level = Integer.parseInt(Debug_LevelIn) ;
-            // Update_Value = Integer.parseInt(Update_ValueIn) ;
-        }
-        catch(NumberFormatException e){
-            ExceptionHandler.handleException(e,"") ;
-        }
+        inputFileProcessor = new FileProcessor(InputFile, OutputFile, errorLogFile) ;
 
-        inputFileProcessor = new FileProcessor(InputFile, OutputFile, errorLogFile, Debug_Level, Update_Value) ;
-
-        Results.deleteFile(OutputFile) ;
-        Results.deleteFile(errorLogFile) ;
-    }
-
-    public void writeToResults(String sIn){
-        results.append(sIn) ;
+        Results.clearFile(OutputFile) ;
+        Results.clearFile(errorLogFile) ;
     }
 
     @Override
     public void run() {
-        // BSTBuilder bstBuilder = new BSTBuilder() ;
-        // Results res = new Results() ;
+        while(!inputFileProcessor.isfileParsed){
+            courseInfo CourseInfo = new courseInfo() ;
+            courseSequencer sequencer = new courseSequencer(CourseInfo) ;
+            FileProcessor fp = ProjectManager.inputFileProcessor ;
+            processPreferences(sequencer,CourseInfo,fp);
+        }        
+    }
 
-        // bstBuilder.insert() ;
-        // writeToResults("Inorder Traversal\n");
-        // bstBuilder.inorder();
-        
-        // writeToResults("Sum of all the B-Numbers in each tree\n");
-        // bstBuilder.sum();
-
-        // bstBuilder.update(Update_Value) ;
-        // writeToResults("\n\nSum of all the B-Numbers after increment\n");
-        // bstBuilder.sum();
-
-        // res.writetoFile(OutputFile,results);
-        // System.out.println(results);
-
-        courseInfo CourseInfo = new courseInfo() ;
-        courseSequencer c = new courseSequencer(CourseInfo) ;
-        StringBuilder s = new StringBuilder() ;
-        FileProcessor fp = ProjectManager.inputFileProcessor ;
-        Pair pair = fp.readLine() ;
-        int b_Number = pair.b_Number ;
-        char[] prefs = pair.prefs;
-        if(prefs != null){
-            for(char course: prefs){
-                if(!c.isGraduated) c.registerCourse(course);
-                else break ;
+    public void processPreferences(courseSequencer sequencer,courseInfo CourseInfo, FileProcessor fp){
+        try{
+            Pair pair = fp.readLine() ;
+            if(pair != null){
+                CourseInfo.b_Number = pair.b_Number ;
+                char[] prefs = pair.prefs;
+                if(prefs != null){
+                    for(char course: prefs){
+                        if(((int)course <65 || (int)course >90) && (((int)course <97 || (int)course >122))){
+                            ExceptionHandler.handleException(null, "Enter a valid Preference!");
+                        }
+                        char currentCourse = Character.toUpperCase(course) ;
+                        if(!sequencer.isGraduated()) sequencer.registerCourse(currentCourse);
+                        else break ;
+                    }
+                }
+                StringBuilder res = getResults(CourseInfo,sequencer.isGraduated(),sequencer.NumStateChanges);
+                Results r = new Results() ;
+                r.writetoFile(OutputFile, res);
+                System.out.println(" "+res+"\n");
             }
         }
-        s.append(String.valueOf(b_Number)+" ") ;
+        catch (Exception e) {
+            ExceptionHandler.handleException(e, "");
+        }
+        // System.out.println(CourseInfo.semwiseCourses+" semwise courses");
+        // System.out.println(CourseInfo.courses_grps+"courses_grps");
+    }
+
+    public StringBuilder getResults(courseInfo CourseInfo, boolean isGraduated, int NumStateChangesIn){
+        StringBuilder s = new StringBuilder() ;
+        s.append(String.valueOf(CourseInfo.b_Number)+" ") ;
         for(char tempChar: CourseInfo.coursesAlloted){
             s.append(String.valueOf(tempChar)) ;
             s.append(" ") ;
         }
         s.append("-- ") ;
-        if(c.isGraduated){
+        if(isGraduated){
             s.append(CourseInfo.semwiseCourses.size()) ;
-            s.append(" "+c.NumStateChanges) ;
+            s.append(" "+NumStateChangesIn) ;
         }
         else{
             s.append("0") ;
-            s.append(" "+c.NumStateChanges) ;
-            s.append("\n The Student Does not Graduate!!") ;
+            s.append(" "+NumStateChangesIn) ;
+            s.append("\nThe Student does not graduate because of not completing two courses in each group!") ;
         }
-        Results r = new Results() ;
-        r.writetoFile(OutputFile, s);
-        System.out.println(CourseInfo.semwiseCourses+" semwise courses");
-        System.out.println(" "+s+"\n");
-        System.out.println(CourseInfo.courses_grps+"courses_grps");
+        s.append("\n") ;
+        return s ;
     }
 }

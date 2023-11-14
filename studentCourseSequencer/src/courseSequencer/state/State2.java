@@ -1,6 +1,8 @@
 package courseSequencer.state;
 
 import courseSequencer.util.StateHelper;
+import courseSequencer.util.courseInfo;
+import courseSequencer.util.courseSequencerHelper;
 
 public class State2 implements CourseSequencerStateI {
     private courseSequencer courseSeq ;
@@ -9,6 +11,11 @@ public class State2 implements CourseSequencerStateI {
     public State2(courseSequencer courseSequencerIn, courseSequencerHelper CourseSequencerHelperIn){
         courseSeq = courseSequencerIn ;
         CourseSequencerHelper = CourseSequencerHelperIn ;
+    }
+
+    @Override
+    public boolean isGraduated(){
+        return false ;
     }
 
     public void processPreference(char courseIn){

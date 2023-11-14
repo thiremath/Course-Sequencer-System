@@ -2,8 +2,6 @@ package courseSequencer.util;
 
 import java.util.ArrayList;
 
-import courseSequencer.state.courseInfo;
-
 public class StateHelper {
     public static boolean isGradEligible(courseInfo helperIn){
         for(ArrayList<Character> a: helperIn.courses_grps){
