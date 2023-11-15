@@ -1,6 +1,5 @@
 package courseSequencer.state;
 
-import courseSequencer.util.StateHelper;
 import courseSequencer.util.courseInfo;
 import courseSequencer.util.courseSequencerHelper;
 
@@ -18,6 +17,7 @@ public class State3 implements CourseSequencerStateI {
         return false ;
     }
 
+    @Override
     public void processPreference(char courseIn){
         CourseSequencerHelper.processPreference(courseIn);
     }
@@ -35,24 +35,8 @@ public class State3 implements CourseSequencerStateI {
         if(tempState != currState) changeState(tempState);
     }
 
-    @Override
     public void changeState(CourseSequencerStateI courseSequencerStateIn) {
         courseSeq.setState(courseSequencerStateIn);
-    }
-
-    @Override
-    public boolean isGradEligible(courseInfo CourseInfoIn) {
-        return StateHelper.isGradEligible(CourseInfoIn) ;
-    }
-
-    @Override
-    public boolean iscourseAlreadyOpted(courseInfo CourseInfoIn) {
-        return StateHelper.iscourseAlreadyOpted(CourseInfoIn) ;
-    }
-
-    @Override
-    public boolean isCourseAllowed(courseInfo CourseInfoIn) {
-        return StateHelper.isCourseAllowed(CourseInfoIn) ;
     }
 
 }

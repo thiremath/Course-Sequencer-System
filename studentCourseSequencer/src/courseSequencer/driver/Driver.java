@@ -12,11 +12,14 @@ public class Driver {
      * It checks the number of arguments before initializing the ProjectManager.
      */
     public static void main(String[] args) {
+
         if (args.length != 3) {
             // If the number of arguments is not equal to 3, display an error message.
             String errorMessage = "Error: Incorrect number of arguments. Program accepts 3 arguments.";
             ExceptionHandler.handleException(null, errorMessage);
-        } else if (args[0].equals("") || args[1].equals("") || args[2].equals("")) {
+        } 
+
+        else if (args[0].equals("") || args[1].equals("") || args[2].equals("")) {
             // If any of the arguments is empty, display an error message.
             String errorMessage = "Empty Arguments!";
             ExceptionHandler.handleException(null, errorMessage);
@@ -25,5 +28,6 @@ public class Driver {
         // Create a new ProjectManager instance with the provided arguments and run the program.
         ProjectManager projectManager = new ProjectManager(args[0], args[1], args[2]);
         projectManager.run();
+        
     }
 }

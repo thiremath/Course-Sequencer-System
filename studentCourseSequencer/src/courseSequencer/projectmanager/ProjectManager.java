@@ -60,13 +60,11 @@ public class ProjectManager implements ProjectManagerInterface{
         catch (Exception e) {
             ExceptionHandler.handleException(e, "");
         }
-        // System.out.println(CourseInfo.semwiseCourses+" semwise courses");
-        // System.out.println(CourseInfo.courses_grps+"courses_grps");
     }
 
     public StringBuilder getResults(courseInfo CourseInfo, boolean isGraduated, int NumStateChangesIn){
         StringBuilder s = new StringBuilder() ;
-        s.append(String.valueOf(CourseInfo.b_Number)+" ") ;
+        s.append(String.valueOf(CourseInfo.b_Number)+": ") ;
         for(char tempChar: CourseInfo.coursesAlloted){
             s.append(String.valueOf(tempChar)) ;
             s.append(" ") ;

@@ -14,7 +14,6 @@ public class courseSequencerHelper {
     courseInfo CourseInfo ;
     boolean isGraduated ;
     public HashMap<Integer,CourseSequencerStateI> map ;
-    int i=0 ;
 
     public courseSequencerHelper(courseSequencer sequencerIn, courseInfo CourseInfoIn){
         sequencer = sequencerIn ;
@@ -38,26 +37,10 @@ public class courseSequencerHelper {
     }
 
     public void processPreference(char courseIn){
-            // i++ ;
-            // System.out.println("i= "+i+" queue= "+queue+" Course is "+courseIn);
-
             processWaitlist();
 
-            // System.out.println("After Processing wait list..");
-            // System.out.println(CourseInfo.semwiseCourses+" semwise courses");
-            // System.out.println(CourseInfo.courses_grps+"courses_grps");
-            // System.out.println(CourseInfo.currSemCourses+" currSemCourses");
-            // System.out.println("Queue after Processing wait list "+queue);
-
             CourseInfo.course = courseIn ;
-            
             allotCourse() ;
-            // System.out.println("After alloting course..");
-            // System.out.println(CourseInfo.semwiseCourses+" semwise courses");
-            // System.out.println(CourseInfo.currSemCourses+" currSemCourses");
-            // System.out.println(CourseInfo.courses_grps+"courses_grps");
-
-            // System.out.println("Queue after alloting course "+queue+"\n");
 
             processWaitlist();
     }
@@ -86,11 +69,11 @@ public class courseSequencerHelper {
 
     public void allotCourse(){
         if(!isGraduated){
-            if(!sequencer.iscourseAlreadyOpted(CourseInfo)){
-                if(sequencer.isCourseAllowed(CourseInfo)){
+            if(!iscourseAlreadyOpted()){
+                if(isCourseAllowed()){
                     addCourse();
                     sequencer.checkState(CourseInfo);
-                    if(sequencer.isGradEligible(CourseInfo)){
+                    if(isGradEligible()){
                         isGraduated = true ;
                         sequencer.state = sequencer.getState(5) ;
                         return ;
@@ -101,7 +84,6 @@ public class courseSequencerHelper {
                 }
             }
             else{
-                // Course is already Opted....
                 System.out.println(CourseInfo.course+" is already Opted.");
                 ExceptionHandler.handleException(null, "Course-"+CourseInfo.course+" is already Opted.");
             }
@@ -130,5 +112,37 @@ public class courseSequencerHelper {
             CourseInfo.courses_grps.get((CourseInfo.course - 'A') / 4).add(CourseInfo.course) ;
         }
     }
+
+    public boolean isGradEligible(){
+        for(ArrayList<Character> a: CourseInfo.courses_grps){
+            if(a.size() < 2){
+                return false ;
+            }
+        }
+        return true ;
+    }
+
+    public boolean iscourseAlreadyOpted(){
+        if(CourseInfo.coursesAlloted.contains(CourseInfo.course)) return true;
+        else return false ;
+    } 
+
+    public boolean isCourseAllowed(){
+        if(CourseInfo.course-'A' >= 16 || (CourseInfo.course-'A') % 4 == 0){
+            return true ;
+        }
+        else{
+            int temp = 4 * ((CourseInfo.course-'A')/4) ;
+            for(int i=temp+'A'; i<CourseInfo.course;i++){
+                if(CourseInfo.currSemCourses.contains((char)i)){
+                    return false ;
+                }
+                else if(!CourseInfo.coursesAlloted.contains((char)i)){
+                    return false ;
+                }
+            }
+            return true ;
+        }
+    } 
 
 }

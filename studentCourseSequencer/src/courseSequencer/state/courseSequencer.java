@@ -40,20 +40,8 @@ public class courseSequencer {
         return state.isGraduated() ;
     }
 
-    public boolean isGradEligible(courseInfo courseInfoIn){
-        return state.isGradEligible(courseInfoIn) ;
-    }
-
     public void checkState(courseInfo courseInfoIn){
         state.updateState(courseInfoIn);
-    } 
-
-    public boolean iscourseAlreadyOpted(courseInfo courseInfoIn){
-        return state.iscourseAlreadyOpted(courseInfoIn) ;
-    } 
-
-    public boolean isCourseAllowed(courseInfo courseInfoIn){
-        return state.isCourseAllowed(courseInfoIn) ;
     } 
 
     public void setState(CourseSequencerStateI stateIn){
