@@ -12,7 +12,6 @@ Following are the commands and the instructions to run ANT on the project.
 
 Description: It cleans up all the .class files that were generated when you
 compiled your code.
-
 -----------------------------------------------------------------------
 ## Instruction to compile:
 
@@ -81,6 +80,9 @@ Example of Output.txt file if the student is not graduated:
 1234: S U X E I M J F N O G K P H L R V W Q T -- 0 3
 The Student does not graduate because of not completing two courses in each group!
 -----------------------------------------------------------------------
+### State Diagram for studentCourseSequencer
+![Alt text](StateDiagram.png)
+-----------------------------------------------------------------------
 ### Quality of the Solution: 
 This program is efficient while performing all the operations. Actions such as- processPreference, updateState and isGraduated are always performed by calling processPreference(), updateState() and isGraduated() methods of the respective states. Here all the states except Graduated State have the same implementation for each methods, therefore we have used a helper class to define these methods. But in future, if the method implementation for states change, this program is very easily scalable because of using the state pattern.
 
@@ -103,7 +105,6 @@ The Helper classes uses ArrayList<ObserverInterface>, which is found in java.uti
 
 
 -----------------------------------------------------------------------
-
 ### Purpose of all folders
 
 state:
